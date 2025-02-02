@@ -32,35 +32,34 @@ extension WelcomeView {
         .offset(x: 74)
     }
     .frame(maxWidth: .infinity, maxHeight: 220)
-    .shadow(color: Color("drop-shadow"), radius: 6, x: 5, y: 5)
-    .padding(.top, 10)
-    .padding(.leading, 20)
-    .padding(.bottom, 10)
-  }
+        .shadow(color: Color("drop-shadow"), radius: 6, x: 5, y: 5)
+        .padding(.top, 10)
+        .padding(.leading, 20)
+        .padding(.bottom, 10)
+      }
 
-  static var welcomeText: some View {
-    return HStack(alignment: .bottom) {
-      VStack(alignment: .leading) {
-        Text("Get fit")
-          .font(.largeTitle)
-          .fontWeight(.black)
-          .kerning(2)
-        Text("by exercising at home")
-          .font(.headline)
-          .fontWeight(.medium)
-          .kerning(2)
-          .fixedSize(horizontal: false, vertical: true)
+      static var welcomeText: some View {
+        return HStack(alignment: .bottom) {
+          VStack(alignment: .leading) {
+            Text("Get fit")
+              .font(.largeTitle)
+              .fontWeight(.black)
+              .kerning(2)
+            Text("by exercising at home")
+              .font(.headline)
+              .fontWeight(.medium)
+              .kerning(2)
+              .fixedSize(horizontal: false, vertical: true)
+          }
+        }
       }
     }
-  }
-}
 
 struct WelcomeImages_Previews: PreviewProvider {
-  static var previews: some View {
-    VStack {
-      WelcomeView.images
-      WelcomeView.welcomeText
+    static var previews: some View {
+        VStack {
+            WelcomeView.images
+            WelcomeView.welcomeText
+        }
     }
-  }
 }
-

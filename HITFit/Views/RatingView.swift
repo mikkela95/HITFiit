@@ -13,7 +13,7 @@ struct RatingView: View {
   @State private var rating = 0
   let maximumRating = 5
 
-  let onColor = Color.red
+  let onColor = Color("ratings")
   let offColor = Color.gray
 
   init(exerciseIndex: Int) {
@@ -26,46 +26,48 @@ struct RatingView: View {
         startingAt: 0)
     }
   }
-    // swiftlint:disable:next strict_fileprivate
-      fileprivate func convertRating() {
-        let index = ratings.index(
-          ratings.startIndex,
-          offsetBy: exerciseIndex)
-        let character = ratings[index]
-        rating = character.wholeNumberValue ?? 0
+
+  // swiftlint:disable:next strict_fileprivate
+  fileprivate func convertRating() {
+    let index = ratings.index(
+      ratings.startIndex,
+      offsetBy: exerciseIndex)
+    let character = ratings[index]
+    rating = character.wholeNumberValue ?? 0
+  }
+
+  var body: some View {
+    HStack {
+      ForEach(1 ..< maximumRating + 1, id: \.self) { index in
+        Button(action: {
+          updateRating(index: index)
+        }, label: {
+          Image(systemName: "waveform.path.ecg")
+            .foregroundColor(
+              index > rating ? offColor : onColor)
+            .font(.body)
+        })
+        .buttonStyle(EmbossedButtonStyle(buttonShape: .round))
+        .onChange(of: ratings) { _ in
+          convertRating()
+        }
+        .onAppear {
+          convertRating()
+        }
       }
+    }
+    .font(.largeTitle)
+  }
 
-      var body: some View {
-        HStack {
-          ForEach(1 ..< maximumRating + 1, id: \.self) { index in
-            Button(action: {
-              updateRating(index: index)
-            }, label: {
-              Image(systemName: "waveform.path.ecg")
-                .foregroundColor(
-                  index > rating ? offColor : onColor)
-                .font(.body)
-            })
-            .buttonStyle(EmbossedButtonStyle(buttonShape: .round))
-            .onChange(of: ratings) { _ in
-              convertRating()
-            }
-            .onAppear {
-                convertRating()
-                        }
-                      }
-                    }
-                    .font(.largeTitle)
-                  }
+  func updateRating(index: Int) {
+    rating = index
+    let index = ratings.index(
+      ratings.startIndex,
+      offsetBy: exerciseIndex)
+    ratings.replaceSubrange(index...index, with: String(rating))
+  }
+}
 
-                  func updateRating(index: Int) {
-                    rating = index
-                    let index = ratings.index(
-                      ratings.startIndex,
-                      offsetBy: exerciseIndex)
-                    ratings.replaceSubrange(index...index, with: String(rating))
-                  }
-                }
 struct RatingView_Previews: PreviewProvider {
   @AppStorage("ratings") static var ratings: String?
   static var previews: some View {
